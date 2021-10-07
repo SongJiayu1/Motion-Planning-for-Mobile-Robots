@@ -5,6 +5,7 @@ using namespace Eigen;
 
 bool tie_break = false;
 
+// 初始化地图
 void AstarPathFinder::initGridMap(double _resolution, Vector3d global_xyz_l, Vector3d global_xyz_u, int max_x_id, int max_y_id, int max_z_id)
 {   
     gl_xl = global_xyz_l(0);
@@ -75,13 +76,14 @@ vector<Vector3d> AstarPathFinder::getVisitedNodes()
     vector<Vector3d> visited_nodes;
     for(int i = 0; i < GLX_SIZE; i++)
         for(int j = 0; j < GLY_SIZE; j++)
-            for(int k = 0; k < GLZ_SIZE; k++){   
+            for(int k = 0; k < GLZ_SIZE; k++)
+            {   
                 if(GridNodeMap[i][j][k]->id != 0) // visualize all nodes in open and close list
 //                if(GridNodeMap[i][j][k]->id == -1)  // visualize nodes in close list only TODO: careful
                     visited_nodes.push_back(GridNodeMap[i][j][k]->coord);
-            g}
+            }
 
-    ROS_WARN("visited_nodes size : %d", visited_nodes.size());
+    ROS_WARN("visited_nodes size : %ld", visited_nodes.size());
     return visited_nodes;
 }
 

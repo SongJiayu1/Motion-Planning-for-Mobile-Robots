@@ -3,7 +3,7 @@
 
 # since this file is sourced either use the provided _CATKIN_SETUP_DIR
 # or fall back to the destination set at configure time
-: ${_CATKIN_SETUP_DIR:=/home/kailin/ros/motion_planning_for_mobile_robots_ROS/hw_1/catkin_ws/devel}
+: ${_CATKIN_SETUP_DIR:=/home/songjiayu/Documents/myprojects/Motion-Planning-for-Mobile-Robots/hw_2/ros/catkin_ws/devel}
 CATKIN_SETUP_UTIL_ARGS="--extend --local"
 . "$_CATKIN_SETUP_DIR/setup.sh"
 unset CATKIN_SETUP_UTIL_ARGS

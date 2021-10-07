@@ -1,8 +1,8 @@
-prefix=/home/kailin/ros/motion_planning_for_mobile_robots_ROS/hw_1/catkin_ws/devel
+prefix=/home/songjiayu/Documents/myprojects/Motion-Planning-for-Mobile-Robots/hw_2/ros/catkin_ws/devel
 
 Name: grid_path_searcher
 Description: Description of grid_path_searcher
 Version: 0.0.1
-Cflags: -I/home/kailin/ros/motion_planning_for_mobile_robots_ROS/hw_1/catkin_ws/src/grid_path_searcher/include
+Cflags: -I/home/songjiayu/Documents/myprojects/Motion-Planning-for-Mobile-Robots/hw_2/ros/catkin_ws/src/grid_path_searcher/include
 Libs: -L${prefix}/lib 
 Requires: 

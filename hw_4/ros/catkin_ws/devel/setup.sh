@@ -11,7 +11,7 @@
 
 # since this file is sourced either use the provided _CATKIN_SETUP_DIR
 # or fall back to the destination set at configure time
-: ${_CATKIN_SETUP_DIR:=/home/kailin/ros/motion_planning_for_mobile_robots_ROS/hw_4/catkin_ws/devel}
+: ${_CATKIN_SETUP_DIR:=/home/songjiayu/Documents/myprojects/Motion-Planning-for-Mobile-Robots/hw_4/ros/catkin_ws/devel}
 _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
 unset _CATKIN_SETUP_DIR
 
