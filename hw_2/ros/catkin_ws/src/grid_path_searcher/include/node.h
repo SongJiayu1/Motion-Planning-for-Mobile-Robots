@@ -13,16 +13,17 @@ typedef GridNode* GridNodePtr;
 
 struct GridNode
 {     
-    int id;        // 1--> open set, -1 --> closed set
-    Eigen::Vector3d coord; 
+    int id; // 1--> open set, -1 --> closed set, 0 --> not expanded
+    Eigen::Vector3d coord; // 全局坐标系下的坐标
     Eigen::Vector3i dir;   // direction of expanding
-    Eigen::Vector3i index;
+    Eigen::Vector3i index; // 栅格的 index
 	
-    double gScore, fScore;
-    GridNodePtr cameFrom;
+    double gScore, fScore; // 节点的 path cost, 注：fScore = gScore + hScore
+    GridNodePtr cameFrom;  // 指向父节点的指针
     std::multimap<double, GridNodePtr>::iterator nodeMapIt;
 
-    GridNode(Eigen::Vector3i _index, Eigen::Vector3d _coord){  
+    GridNode(Eigen::Vector3i _index, Eigen::Vector3d _coord)
+    {  
 		id = 0;
 		index = _index;
 		coord = _coord;

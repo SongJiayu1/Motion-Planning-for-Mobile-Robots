@@ -8,9 +8,10 @@ bool tie_break = false;
 // 初始化地图
 void AstarPathFinder::initGridMap(double _resolution, Vector3d global_xyz_l, Vector3d global_xyz_u, int max_x_id, int max_y_id, int max_z_id)
 {   
-    gl_xl = global_xyz_l(0);
-    gl_yl = global_xyz_l(1);
-    gl_zl = global_xyz_l(2);
+    // gl_xl 表示地图 x 方向上的下边界
+    gl_xl = global_xyz_l(0);  // 地图 x 方向的下边界
+    gl_yl = global_xyz_l(1);  // 地图 y 方向的下边界
+    gl_zl = global_xyz_l(2);  // 地图 z 方向的下边界
 
     gl_xu = global_xyz_u(0);
     gl_yu = global_xyz_u(1);
@@ -257,6 +258,7 @@ double AstarPathFinder::getHeu(GridNodePtr node1, GridNodePtr node2)
     return h;
 }
 
+// A Star 搜索的核心函数
 void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
 {   
     ros::Time time_1 = ros::Time::now();    
@@ -266,9 +268,13 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
     Vector3i end_idx   = coord2gridIndex(end_pt);
     goalIdx = end_idx;
 
-    //position of start_point and end_point
+    //position of start_point and end_point 
     start_pt = gridIndex2coord(start_idx);
     end_pt   = gridIndex2coord(end_idx);
+
+    // 这里先调用了 coord2gridIndex() 将 传入的 终点坐标转换成所在栅格的 index
+    // 再调用 gridIndex2coord() 计算得到栅格中心的的坐标。
+    // 注：规划使用的不是用户在交互界面制定的点的坐标，而是所在栅格中心点的坐标。
 
     //Initialize the pointers of struct GridNode which represent start node and goal node
     GridNodePtr startPtr = new GridNode(start_idx, start_pt);
@@ -306,7 +312,8 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
     Eigen::Vector3i current_idx; // record the current index
 
     // this is the main loop
-    while ( !openSet.empty() ){
+    while ( !openSet.empty() )
+    {
         /*
         *
         *
@@ -319,12 +326,14 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
         *
         */
 
-        currentPtr = openSet.begin() -> second; // first T1, second T2
+        // 由于 multimap 会根据 key 值自动排序，所以 cost 最小的值可以使用 .begin() 获得。
+        currentPtr = openSet.begin() -> second; 
         openSet.erase(openSet.begin()); // remove the node with minimal f value
         current_idx = currentPtr->index;
         GridNodeMap[current_idx[0]][current_idx[1]][current_idx[2]] -> id = -1;// update the id in grid node map
         // if the current node is the goal 
-        if( currentPtr->index == goalIdx ){
+        if( currentPtr->index == goalIdx )
+        {
             ros::Time time_2 = ros::Time::now();
             terminatePtr = currentPtr;
             ROS_WARN("[A*]{sucess}  Time in A*  is %f ms, path cost if %f m", (time_2 - time_1).toSec() * 1000.0, currentPtr->gScore * resolution );            
@@ -340,7 +349,8 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
         please write your code below
         *        
         */         
-        for(int i = 0; i < (int)neighborPtrSets.size(); i++){
+        for(int i = 0; i < (int)neighborPtrSets.size(); i++)
+        {
             /*
             *
             *
@@ -353,7 +363,8 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
             *        
             */
             neighborPtr = neighborPtrSets[i];
-            if(neighborPtr -> id == 0){ //discover a new node, which is not in the closed set and open set
+            if(neighborPtr -> id == 0)
+            { //discover a new node, which is not in the closed set and open set
                 /*
                 *
                 *
@@ -371,7 +382,8 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
                 neighborPtr -> id = 1;
                 continue;
             }
-            else if(neighborPtr -> id == 1){ //this node is in open set and need to judge if it needs to update, the "0" should be deleted when you are coding
+            else if(neighborPtr -> id == 1)
+            { //this node is in open set and need to judge if it needs to update, the "0" should be deleted when you are coding
                 /*
                 *
                 *
@@ -388,7 +400,8 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
 
                 continue;
             }
-            else{//this node is in closed set
+            else
+            {//this node is in closed set
                 /*
                 *
                 please write your code below

@@ -55,12 +55,14 @@ void rcvWaypointsCallback(const nav_msgs::Path & wp)
     if( wp.poses[0].pose.position.z < 0.0 || _has_map == false )
         return;
 
-    Vector3d target_pt;
+    Vector3d target_pt;  
+    // 获取交互式界面给出的终点坐标
     target_pt << wp.poses[0].pose.position.x,
                  wp.poses[0].pose.position.y,
                  wp.poses[0].pose.position.z;
 
     ROS_INFO("[node] receive the planning target");
+    // 输入起点，终点，调用 pathFinding 函数，进行路径规划。
     pathFinding(_start_pt, target_pt); 
 }
 
@@ -118,7 +120,7 @@ void pathFinding(const Vector3d start_pt, const Vector3d target_pt)
     visGridPath (grid_path, false);
     visVisitedNode(visited_nodes);
 
-    //Reset map for next call
+    //Reset map for next call - 为下次规划重置地图
     _astar_path_finder->resetUsedGrids();
 
     //_use_jps = 0 -> Do not use JPS
@@ -149,8 +151,8 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "demo_node");
     ros::NodeHandle nh("~");
 
-    _map_sub  = nh.subscribe( "map",       1, rcvPointCloudCallBack );
-    _pts_sub  = nh.subscribe( "waypoints", 1, rcvWaypointsCallback );
+    _map_sub  = nh.subscribe( "map",       1, rcvPointCloudCallBack ); // 订阅地图信息的回调函数
+    _pts_sub  = nh.subscribe( "waypoints", 1, rcvWaypointsCallback );  // 订阅终点信息的回调函数
 
     _grid_map_vis_pub             = nh.advertise<sensor_msgs::PointCloud2>("grid_map_vis", 1);
     _grid_path_vis_pub            = nh.advertise<visualization_msgs::Marker>("grid_path_vis", 1);
